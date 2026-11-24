@@ -1,0 +1,17 @@
+# secrets
+.env
+.streamlit/secrets.toml
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# os / editors
+.DS_Store
+.vscode/
+.idea/
+
+# data exports
+reclaim-export*.json

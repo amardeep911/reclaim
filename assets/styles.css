@@ -1,0 +1,253 @@
+/* =====================================================================
+   Reclaim – custom styles layered on top of the Streamlit theme
+   (colours/fonts for light + dark live in .streamlit/config.toml).
+   Card surfaces use translucent greys + inherited text colour so they
+   look right in both light and dark mode without theme detection.
+   ===================================================================== */
+
+:root {
+  --rc-teal: #4fb3a9;
+  --rc-green: #3fb68b;
+  --rc-yellow: #e5b84b;
+  --rc-red: #e06c6c;
+  --rc-grey: #7c8794;
+  --rc-blue: #5b8def;
+  --rc-surface: rgba(127, 140, 155, 0.07);
+  --rc-surface-strong: rgba(127, 140, 155, 0.12);
+  --rc-border: rgba(127, 140, 155, 0.20);
+  --rc-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.06);
+  --rc-radius: 18px;
+}
+
+/* ---------- page chrome ---------- */
+.block-container { padding-top: 2.2rem; padding-bottom: 4rem; max-width: 1180px; }
+footer { visibility: hidden; }
+h1, h2, h3 { letter-spacing: -0.01em; }
+
+/* ---------- hero / page header ---------- */
+.rc-hero {
+  position: relative;
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 1.4rem;
+  border-radius: 24px;
+  border: 1px solid var(--rc-border);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(79, 179, 169, 0.22) 0%, rgba(79, 179, 169, 0) 55%),
+    radial-gradient(100% 120% at 100% 100%, rgba(63, 182, 139, 0.14) 0%, rgba(63, 182, 139, 0) 60%),
+    var(--rc-surface);
+  box-shadow: var(--rc-shadow);
+}
+.rc-eyebrow {
+  font-size: 0.76rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--rc-teal); margin-bottom: 0.35rem;
+}
+.rc-hero h1 { font-size: 2rem; margin: 0 0 0.35rem 0; padding: 0; line-height: 1.2; }
+.rc-hero p { margin: 0; opacity: 0.75; font-size: 1.02rem; }
+
+.rc-section { margin: 1.8rem 0 0.7rem 0; }
+.rc-section h3 { margin: 0; padding: 0; font-size: 1.18rem; }
+.rc-section p { margin: 0.2rem 0 0 0; opacity: 0.65; font-size: 0.9rem; }
+
+/* ---------- stat cards ---------- */
+.rc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 12px;
+  margin-bottom: 0.6rem;
+}
+.rc-card {
+  background: var(--rc-surface);
+  border: 1px solid var(--rc-border);
+  border-radius: var(--rc-radius);
+  padding: 1rem 1.1rem;
+  box-shadow: var(--rc-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.rc-card:hover { transform: translateY(-1px); }
+.rc-card .rc-label {
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.62;
+}
+.rc-card .rc-value { font-size: 1.65rem; font-weight: 650; line-height: 1.25; margin-top: 0.3rem; }
+.rc-card .rc-sub { font-size: 0.82rem; opacity: 0.62; margin-top: 0.2rem; }
+.rc-card.rc-teal   { border-left: 4px solid var(--rc-teal); }
+.rc-card.rc-green  { border-left: 4px solid var(--rc-green); }
+.rc-card.rc-yellow { border-left: 4px solid var(--rc-yellow); }
+.rc-card.rc-red    { border-left: 4px solid var(--rc-red); }
+.rc-card.rc-blue   { border-left: 4px solid var(--rc-blue); }
+
+/* ---------- quote / motivation ---------- */
+.rc-quote {
+  border-radius: var(--rc-radius);
+  padding: 1.1rem 1.3rem;
+  background: linear-gradient(135deg, rgba(79, 179, 169, 0.14), rgba(91, 141, 239, 0.08));
+  border: 1px solid var(--rc-border);
+  margin-bottom: 0.6rem;
+}
+.rc-quote .rc-label { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rc-teal); }
+.rc-quote .rc-text { font-size: 1.05rem; margin-top: 0.35rem; line-height: 1.55; white-space: pre-wrap; }
+
+/* ---------- progress bar ---------- */
+.rc-progress-wrap { margin: 0.4rem 0 0.9rem 0; }
+.rc-progress-head { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.35rem; }
+.rc-progress-head span:last-child { opacity: 0.7; }
+.rc-progress { height: 10px; border-radius: 999px; background: var(--rc-surface-strong); overflow: hidden; }
+.rc-progress > div {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--rc-teal), var(--rc-green));
+  transition: width 0.6s ease;
+}
+
+/* ---------- empty state ---------- */
+.rc-empty {
+  text-align: center; padding: 2rem 1rem; border-radius: var(--rc-radius);
+  border: 1px dashed var(--rc-border); background: var(--rc-surface);
+}
+.rc-empty .rc-empty-icon { font-size: 2rem; }
+.rc-empty h4 { margin: 0.4rem 0 0.2rem 0; padding: 0; }
+.rc-empty p { margin: 0; opacity: 0.7; }
+
+/* ---------- hourly timeline strip ---------- */
+.rc-timeline { display: flex; gap: 3px; margin: 0.3rem 0 0.2rem 0; }
+.rc-timeline .rc-cell { flex: 1; height: 30px; border-radius: 6px; min-width: 6px; }
+.rc-timeline-labels { display: flex; gap: 3px; font-size: 0.68rem; opacity: 0.6; }
+.rc-timeline-labels span { flex: 1; text-align: left; min-width: 6px; white-space: nowrap; overflow: visible; }
+.rc-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.8rem; opacity: 0.8; margin: 0.5rem 0 0.8rem 0; }
+.rc-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+.rc-cell.success, .rc-legend i.success { background: var(--rc-green); }
+.rc-cell.craving_resisted, .rc-legend i.craving_resisted { background: var(--rc-yellow); }
+.rc-cell.consumed, .rc-legend i.consumed { background: var(--rc-red); }
+.rc-cell.untracked, .rc-legend i.untracked { background: rgba(124, 135, 148, 0.35); }
+.rc-cell.upcoming, .rc-legend i.upcoming { background: rgba(91, 141, 239, 0.35); }
+.rc-cell.current { outline: 2px solid var(--rc-teal); outline-offset: 1px; }
+
+/* ---------- hourly slot buttons (keys look like slot-<status>[-sel]-...) ---------- */
+[class*="st-key-slot-"] button {
+  border-radius: 12px; font-weight: 600; min-height: 48px; transition: transform 0.1s ease;
+}
+[class*="st-key-slot-"] button:active { transform: scale(0.97); }
+[class*="st-key-slot-success"] button { background: rgba(63, 182, 139, 0.18); border-color: var(--rc-green); }
+[class*="st-key-slot-craving_resisted"] button { background: rgba(229, 184, 75, 0.20); border-color: var(--rc-yellow); }
+[class*="st-key-slot-consumed"] button { background: rgba(224, 108, 108, 0.18); border-color: var(--rc-red); }
+[class*="st-key-slot-untracked"] button { background: rgba(124, 135, 148, 0.08); border-style: dashed; }
+[class*="st-key-slot-upcoming"] button { background: rgba(91, 141, 239, 0.08); border-color: rgba(91, 141, 239, 0.35); }
+[class*="st-key-slot-"][class*="-sel-"] button { box-shadow: 0 0 0 3px var(--rc-teal); }
+
+/* ---------- one-tap quick log buttons ---------- */
+[class*="st-key-quick-"] button { min-height: 64px; border-radius: 16px; font-size: 1.02rem; font-weight: 600; }
+[class*="st-key-quick-success"] button { background: rgba(63, 182, 139, 0.16); border-color: var(--rc-green); }
+[class*="st-key-quick-craving"] button { background: rgba(229, 184, 75, 0.18); border-color: var(--rc-yellow); }
+[class*="st-key-quick-consumed"] button { background: rgba(224, 108, 108, 0.14); border-color: var(--rc-red); }
+[class*="-sleep-log-"] button { min-height: 52px; border-radius: 14px; font-weight: 600;
+  background: rgba(91, 141, 239, 0.14); border-color: rgba(91, 141, 239, 0.55); }
+
+/* ---------- general widget polish ---------- */
+.stButton button, .stDownloadButton button, .stFormSubmitButton button { border-radius: 12px; }
+div[data-testid="stForm"] { border-radius: var(--rc-radius); border-color: var(--rc-border); }
+div[data-testid="stExpander"] details { border-radius: 14px; }
+div[data-testid="stTabs"] button p { font-weight: 600; }
+
+.rc-brand { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; }
+.rc-tagline { font-size: 0.82rem; opacity: 0.65; margin-top: -0.2rem; }
+
+/* ---------- mobile ---------- */
+@media (max-width: 640px) {
+  .block-container { padding: 1.2rem 0.9rem 3rem 0.9rem; }
+  .rc-hero { padding: 1.2rem 1.1rem; border-radius: 20px; }
+  .rc-hero h1 { font-size: 1.55rem; }
+  .rc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .rc-card { padding: 0.8rem 0.85rem; }
+  .rc-card .rc-value { font-size: 1.3rem; }
+  .rc-timeline .rc-cell { height: 24px; }
+}
+
+/* =====================================================================
+   Phase 2
+   ===================================================================== */
+
+/* ---------- big craving button ---------- */
+.st-key-craving-open button {
+  min-height: 84px; border-radius: 22px; font-size: 1.2rem; font-weight: 700;
+  background: linear-gradient(135deg, #4fb3a9, #3fb68b); color: #fff; border: none;
+  box-shadow: 0 10px 30px rgba(79, 179, 169, 0.35);
+}
+.st-key-craving-open button:hover { filter: brightness(1.05); color: #fff; }
+
+/* ---------- box-breathing animation (16 s cycle, ~5 minutes) ---------- */
+.rc-breath { display: flex; flex-direction: column; align-items: center; padding: 1.2rem 0 0.6rem 0; }
+.rc-breath-stage { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
+.rc-breath-circle {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(108, 199, 189, 0.95), rgba(63, 182, 139, 0.55));
+  box-shadow: 0 0 60px rgba(79, 179, 169, 0.45);
+  transform: scale(0.55);
+  animation: rc-breathe 16s ease-in-out 19;
+}
+.rc-breath-label { position: absolute; font-weight: 700; font-size: 1.15rem; color: #fff; opacity: 0;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25); }
+.rc-breath-label.l1 { animation: rc-l1 16s linear 19; }
+.rc-breath-label.l2 { animation: rc-l2 16s linear 19; }
+.rc-breath-label.l3 { animation: rc-l3 16s linear 19; }
+.rc-breath-label.l4 { animation: rc-l4 16s linear 19; }
+.rc-breath-done { opacity: 0; margin-top: 1rem; font-weight: 600; color: var(--rc-teal);
+  animation: rc-fade-in 0.8s ease 304s forwards; }
+@keyframes rc-breathe { 0% { transform: scale(0.55); } 25%, 50% { transform: scale(1); } 75%, 100% { transform: scale(0.55); } }
+@keyframes rc-l1 { 0%, 24% { opacity: 1; } 25%, 100% { opacity: 0; } }
+@keyframes rc-l2 { 0%, 24% { opacity: 0; } 25%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes rc-l3 { 0%, 49% { opacity: 0; } 50%, 74% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes rc-l4 { 0%, 74% { opacity: 0; } 75%, 99% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes rc-fade-in { to { opacity: 1; } }
+
+/* ---------- numbered steps ---------- */
+.rc-steps { counter-reset: step; list-style: none; padding: 0; margin: 0.3rem 0; }
+.rc-steps li { counter-increment: step; position: relative; padding: 0.55rem 0 0.55rem 2.4rem; line-height: 1.45; }
+.rc-steps li::before {
+  content: counter(step); position: absolute; left: 0; top: 0.45rem; width: 1.7rem; height: 1.7rem;
+  border-radius: 50%; background: rgba(79, 179, 169, 0.18); color: var(--rc-teal);
+  font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- achievements ---------- */
+.rc-ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.rc-ach {
+  text-align: center; padding: 1.1rem 0.9rem 1rem; border-radius: var(--rc-radius);
+  border: 1px solid var(--rc-border); background: var(--rc-surface); box-shadow: var(--rc-shadow);
+}
+.rc-ach.unlocked {
+  background: linear-gradient(160deg, rgba(79, 179, 169, 0.18), rgba(63, 182, 139, 0.06));
+  border-color: rgba(79, 179, 169, 0.45);
+}
+.rc-ach .rc-ach-icon { font-size: 2.1rem; line-height: 1; }
+.rc-ach.locked .rc-ach-icon { filter: grayscale(1); opacity: 0.4; }
+.rc-ach.locked .rc-ach-title { opacity: 0.7; }
+.rc-ach .rc-ach-title { font-weight: 650; margin-top: 0.5rem; }
+.rc-ach .rc-ach-desc { font-size: 0.8rem; opacity: 0.65; margin-top: 0.2rem; min-height: 2.2em; }
+.rc-ach .rc-ach-meta { font-size: 0.74rem; margin-top: 0.5rem; color: var(--rc-teal); font-weight: 600; }
+.rc-ach .rc-progress { height: 6px; margin-top: 0.55rem; }
+.rc-ach.new { animation: rc-pop 0.9s cubic-bezier(.2, 1.4, .4, 1) both, rc-glow 2.4s ease-in-out 0.9s 3; }
+@keyframes rc-pop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes rc-glow { 0%, 100% { box-shadow: var(--rc-shadow); } 50% { box-shadow: 0 0 0 4px rgba(79, 179, 169, 0.35), 0 0 32px rgba(79, 179, 169, 0.45); } }
+
+/* ---------- journal calendar ---------- */
+.rc-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; max-width: 420px; }
+.rc-cal .rc-cal-head { font-size: 0.7rem; text-align: center; opacity: 0.55; font-weight: 600; padding-bottom: 2px; }
+.rc-cal .rc-cal-day {
+  aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; font-size: 0.78rem; background: var(--rc-surface); border: 1px solid transparent;
+}
+.rc-cal .rc-cal-day span { font-size: 0.95rem; line-height: 1.1; }
+.rc-cal .rc-cal-day.has-entry { background: rgba(79, 179, 169, 0.18); }
+.rc-cal .rc-cal-day.today { border-color: var(--rc-teal); }
+.rc-cal .rc-cal-day.selected { box-shadow: 0 0 0 2px var(--rc-teal); }
+.rc-cal .rc-cal-day.empty { background: transparent; }
+
+/* ---------- savings goals ---------- */
+.rc-goal { display: flex; align-items: center; gap: 0.9rem; }
+.rc-goal .rc-goal-icon { font-size: 1.8rem; }
+.rc-goal .rc-goal-body { flex: 1; }
+.rc-goal .rc-progress-wrap { margin: 0.2rem 0 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-breath-circle, .rc-breath-label, .rc-ach.new { animation-duration: 0.01s !important; }
+  .rc-breath-label.l1 { opacity: 1; }
+}

@@ -1,0 +1,51 @@
+[server]
+runOnSave = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+
+# Light and dark palettes – Streamlit follows the device setting,
+# and users can switch in ⋮ → Settings → Theme.
+[theme]
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "Fraunces:https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+baseRadius = "0.75rem"
+buttonRadius = "0.75rem"
+showWidgetBorder = true
+
+[theme.dark]
+primaryColor = "#4fb3a9"
+backgroundColor = "#0e1621"
+secondaryBackgroundColor = "#16212e"
+textColor = "#e4eaf0"
+borderColor = "#263444"
+linkColor = "#6cc7bd"
+greenColor = "#3fb68b"
+redColor = "#e06c6c"
+yellowColor = "#e5b84b"
+blueColor = "#5b8def"
+
+[theme.dark.sidebar]
+backgroundColor = "#111b27"
+secondaryBackgroundColor = "#1a2634"
+borderColor = "#22303f"
+
+[theme.light]
+primaryColor = "#2f8f86"
+backgroundColor = "#f7f9f8"
+secondaryBackgroundColor = "#eaf0ee"
+textColor = "#1a2633"
+borderColor = "#d5dfdc"
+linkColor = "#2f8f86"
+greenColor = "#2e9e74"
+redColor = "#c95454"
+yellowColor = "#c99a2e"
+blueColor = "#3f74d6"
+
+[theme.light.sidebar]
+backgroundColor = "#eef3f1"
+secondaryBackgroundColor = "#e2eae7"
+borderColor = "#d5dfdc"
