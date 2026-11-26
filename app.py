@@ -60,6 +60,7 @@ else:
                 st.Page("pages/4_Craving_Manager.py", title="Craving Manager", icon=":material/waves:"),
             ],
             "Progress": [
+                st.Page("pages/5_Analytics.py", title="Analytics & Insights", icon=":material/insights:"),
                 st.Page("pages/6_Achievements.py", title="Achievements", icon=":material/emoji_events:"),
                 st.Page("pages/11_Savings.py", title="Money Saved", icon=":material/savings:"),
                 st.Page("pages/8_Journal.py", title="Journal", icon=":material/menu_book:"),

@@ -13,15 +13,17 @@ Built with **Python + Streamlit** and **Supabase** (Postgres + Auth). There is n
 
 ---
 
-## Status: Phase 2 complete
+## Status: Phase 3 complete
 
-| Phase 1 – MVP ✅ | Phase 2 – Recovery features ✅ | Coming next |
+| Phase 1 – MVP ✅ | Phase 2 – Recovery features ✅ | Phase 3 – Analytics ✅ |
 |---|---|---|
-| Sign up / log in / password reset | **Craving Manager**: "I'm having a craving" button, coping toolkit, trigger stats, history | Phase 3: analytics, heatmaps, behavioural insights |
-| Onboarding with alcohol-dependence safety screening | **Money Saved**: calculator, projections, savings goals | Phase 4: AI companion, richer resources, reminders |
-| **Hourly Recovery Tracker** | **Journal**: daily reflections, calendar, history, edit/delete | |
-| Smoking + alcohol consumption tracker | **Achievements**: 24 badges, unlock celebrations, kept forever | |
-| Dashboard, daily check-in, Settings | **Streaks**: current, best-ever and tracking streaks, separate from lifetime totals | |
+| Sign up / log in / password reset | **Craving Manager**: "I'm having a craving" button, coping toolkit, trigger stats, history | **Analytics & Insights** page with 7 / 30 / 90 days / all time / custom filters |
+| Onboarding with alcohol-dependence safety screening | **Money Saved**: calculator, projections, savings goals | Daily, weekly and monthly trends vs. baseline; cigarettes avoided over time |
+| **Hourly Recovery Tracker** + morning sleep card | **Journal**: daily reflections, calendar, history, edit/delete | Weekday × hour heatmap; by-hour and by-weekday patterns |
+| Smoking + alcohol consumption tracker | **Achievements**: 24 badges, unlock celebrations, kept forever | Tracked-hours breakdown; craving timing, triggers, what helps |
+| Dashboard, daily check-in, Settings | **Streaks**: current, best-ever and tracking streaks, separate from lifetime totals | Weekly & monthly reports; behavioural insights from your own records |
+
+**Next – Phase 4:** AI recovery companion (optional, OpenAI), richer health resources, notification enhancements.
 
 ---
 
@@ -68,6 +70,7 @@ addiction-free/                  ← project root (the "reclaim" repo)
 │   ├── 2_Hourly_Tracker.py
 │   ├── 3_Consumption_Tracker.py
 │   ├── 4_Craving_Manager.py     craving log + coping toolkit
+│   ├── 5_Analytics.py           trends, heatmap, reports, insights
 │   ├── 6_Achievements.py        streaks, lifetime progress, badges
 │   ├── 8_Journal.py             private journal with calendar
 │   ├── 11_Savings.py            savings calculator + goals
@@ -120,6 +123,16 @@ through `ON DELETE CASCADE`.
 > This is a deliberate trade-off: tokens are never written to cookies or local storage.
 
 ---
+
+### Phase 3: analytics rules
+
+* **Insights come only from your records.** Each rule in `utils/insights.py` needs a minimum amount of data
+  (for example 5+ cravings for a timing pattern, 3+ days for a baseline comparison) and is skipped on ties.
+  Every sentence includes the counts it is based on.
+* **Ranges start at your tracking start date.** Today counts as a partial day, weighted by how much of your
+  waking time has passed, so averages and savings stay fair.
+* **Chart colours were checked** with a palette validator for both light and dark mode (lightness, chroma,
+  colour-blind separation, contrast). Every chart has hover tooltips and a "View data" table.
 
 ### Phase 2 business rules
 
@@ -180,6 +193,11 @@ pytest -q
 
 * `tests/test_calculations.py`: standard drinks, savings, streaks, free days, milestones.
 * `tests/test_tracking.py`: hour slots (IST offsets, DST days), timestamp parsing, validators.
+* `tests/test_analytics.py`: every insight rule (thresholds, ties, wording), range maths, and the
+  daily / weekly / cumulative frames.
+* `tests/test_phase3_flow.py`: seeds three weeks of history and renders every range and tab for smoking,
+  alcohol and both. It also checks that the expected insights appear and that a new account sees a friendly
+  empty state.
 * `tests/test_phase2_flow.py`: craving logging (resisted / used / never overwriting a consumed hour),
   alcohol withdrawal guidance, journal save, update and delete, savings goals, achievement unlocking (exactly
   once, and nothing for an untouched account), and trusted-contact validation.

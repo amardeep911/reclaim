@@ -196,3 +196,24 @@ def effective_days(start: date, today: date, today_fraction: float) -> float:
     if start > today:
         return 0.0
     return (today - start).days + today_fraction
+
+
+# ---------------------------------------------------------------------------
+# Phase 3: analytics ranges
+# ---------------------------------------------------------------------------
+
+def observed_days(first: date, last: date, start: date, today: date, today_fraction: float) -> float:
+    """Days of a date range that have actually been tracked (after tracking start, up to now)."""
+    first = max(first, start)
+    if first > today or first > last:
+        return 0.0
+    if last < today:
+        return float((last - first).days + 1)
+    return (today - first).days + today_fraction
+
+
+def change_pct(current: float, previous: float) -> float | None:
+    """Percentage change, or None when there's nothing to compare against."""
+    if previous == 0:
+        return None
+    return round(100 * (current - previous) / previous)

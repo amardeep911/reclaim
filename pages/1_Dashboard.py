@@ -107,6 +107,7 @@ with st.container(horizontal=True, gap="small"):
         st.page_link("pages/3_Consumption_Tracker.py", label="Record a drink", icon=":material/local_bar:")
     st.page_link("pages/4_Craving_Manager.py", label="Log a craving", icon=":material/waves:")
     st.page_link("pages/8_Journal.py", label="Write in journal", icon=":material/menu_book:")
+    st.page_link("pages/5_Analytics.py", label="See my patterns", icon=":material/insights:")
     st.page_link("pages/9_Resources.py", label="I need support", icon=":material/support:")
 
 # ---------------------------------------------------------------- overview
