@@ -226,3 +226,51 @@ def test_sleep_card_can_be_skipped():
     assert_clean(at)
     assert not fake.store.get("hourly_logs")
     assert not any(b.key == "hourly-sleep-log-smoking" for b in at.button)
+
+
+# ---------------------------------------------------------------- reset my data
+
+def test_reset_my_data_clears_records_keeps_login_and_restarts_setup():
+    fake = FakeSupabase()
+    at = open_page(fake, "pages/2_Hourly_Tracker.py")
+    at = click(at, key="quick-success")
+    at = click(at, key="quick-consumed")
+    at.switch_page("pages/1_Dashboard.py").run()          # unlocks an achievement
+    fake.table("craving_logs").insert({"user_id": "someone-else", "addiction_type": "smoking",
+                                       "occurred_at": "2026-11-01T10:00:00Z", "intensity": 5,
+                                       "resisted": True}).execute()
+    assert fake.store["hourly_logs"] and fake.store["user_achievements"]
+
+    at.switch_page("pages/10_Settings.py").run()
+    reset_button = [b for b in at.button if b.label == "Reset all my data"][0]
+    assert reset_button.disabled  # nothing can happen until RESET is typed
+    at.text_input(key="reset_confirm").input("RESET").run()
+    at = click(at, "Reset all my data")
+    assert_clean(at)
+
+    mine = lambda table: [r for r in fake.store.get(table, []) if r.get("user_id") == fake.user_id]  # noqa: E731
+    for table in ("hourly_logs", "consumption_logs", "craving_logs", "user_achievements",
+                  "recovery_goals", "addiction_profiles"):
+        assert mine(table) == [], table
+    assert len(fake.store["craving_logs"]) == 1                       # other people's data untouched
+    profile = fake.store["profiles"][0]
+    assert profile["onboarding_completed_at"] is None and profile["display_name"] == "Sam"  # login + name kept
+    assert at.session_state["user_id"] == fake.user_id                # still signed in
+
+    # Setup wizard again, with the name pre-filled. (A real browser falls back to the only registered page,
+    # the wizard; AppTest keeps re-running the page it last switched to, so switch explicitly.)
+    assert at.session_state["ctx"].onboarded is False
+    at.switch_page("pages/onboarding.py").run()
+    assert_clean(at)
+    assert any("set up Reclaim, Sam" in m.value for m in at.markdown)
+    assert any("has been reset" in s.value for s in at.success)
+    assert at.text_input[0].value == "Sam"
+    at = onboard_again(at)
+    assert fake.store["profiles"][0]["onboarding_completed_at"]
+
+
+def onboard_again(at):
+    at = click(at, "Continue →")
+    at = click(at, "Continue →")
+    at.text_area[0].input("Fresh start.")
+    return click(at, "Finish setup ✓")

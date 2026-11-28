@@ -212,3 +212,30 @@ def export_all_data() -> dict:
 
 def delete_all_journal_entries() -> None:
     db().table("journal_entries").delete().eq("user_id", uid()).execute()
+
+
+# Everything a reset clears – children before parents. profiles and
+# notification_preferences are kept so name, timezone and settings survive.
+RESET_TABLES = [
+    "ai_messages", "ai_conversations", "hourly_logs", "consumption_logs", "craving_logs", "daily_logs",
+    "journal_entries", "user_achievements", "savings_goals", "recovery_goals", "addiction_profiles",
+]
+
+
+def reset_my_data() -> None:
+    """Delete all of the signed-in user's recovery data and restart onboarding.
+
+    Each delete is filtered by user_id AND protected by RLS, so it can only ever touch the caller's rows.
+    Safe to retry: if it stops halfway, running it again finishes the job.
+    """
+    for table in RESET_TABLES:
+        db().table(table).delete().eq("user_id", uid()).execute()
+    db().table("profiles").update({"onboarding_completed_at": None}).eq("id", uid()).execute()
+
+
+def clear_session_cache() -> None:
+    """Forget everything cached for this browser session except the login itself."""
+    keep = {"sb", "user_id", "user_email"}
+    for key in list(st.session_state.keys()):
+        if key not in keep:
+            del st.session_state[key]

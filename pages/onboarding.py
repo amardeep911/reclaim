@@ -21,6 +21,14 @@ ctx = require_context()
 onb: dict = st.session_state.setdefault("onb", {})
 step: int = st.session_state.setdefault("onb_step", 0)
 
+# Returning user (e.g. after "Reset my data"): pre-fill what we already know, once.
+if ctx.profile.get("display_name") and not onb:
+    p = ctx.profile
+    onb.update({k: v for k, v in {
+        "name": p.get("display_name"), "age": p.get("age"), "timezone": p.get("timezone"),
+        "currency": p.get("currency_symbol") if p.get("currency_symbol") in CURRENCIES else None, "wake_hour": p.get("wake_hour"), "sleep_hour": p.get("sleep_hour"),
+    }.items() if v is not None})
+
 
 def chosen() -> list[str]:
     kind = onb.get("addiction_type", "smoking")
@@ -63,6 +71,8 @@ with center:
     page_header(f"Let's set up Reclaim{', ' + onb['name'] if onb.get('name') else ''}",
                 "A few questions so your tracking, savings and milestones are personal to you. "
                 "You can change any of this later in Settings.", eyebrow="Getting started")
+    if msg := st.session_state.pop("reset_flash", None):
+        st.success(msg)
     progress_bar(100 * (step + 1) / len(steps()), f"Step {step + 1} of {len(steps())}", "")
 
     # ------------------------------------------------------------------ about

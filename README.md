@@ -265,4 +265,6 @@ git push -u origin main
 * **Third-party hosting:** data is stored by Supabase and the app runs on Streamlit Community Cloud. Both
   process data on their own infrastructure. The Settings page explains this to users, and they can
   **export** or **delete** all of their data there.
+* **Reset my data** (Settings → Privacy & data) clears every record but keeps the login and basic
+  settings, then restarts the setup wizard. It is safe to retry if interrupted.
 * The AI companion (Phase 4) is optional, and the app works fully without an OpenAI key.

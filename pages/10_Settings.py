@@ -223,6 +223,23 @@ with tabs[4]:
         st.download_button("Download reclaim-export.json", blob, file_name="reclaim-export.json",
                            mime="application/json", type="primary", on_click="ignore")
 
+    st.markdown("#### Reset my data")
+    st.caption("Start fresh without deleting your account. This permanently deletes all hourly logs, "
+               "consumption, cravings, check-ins, journal entries, achievements, savings goals and your "
+               "recovery plan, then takes you back through setup. Your login, name, timezone, tracking hours, "
+               "currency and reminder settings are kept. Consider exporting your data first.")
+    typed_reset = st.text_input("Type RESET to confirm", key="reset_confirm")
+    if st.button("Reset all my data", disabled=typed_reset != "RESET", icon=":material/restart_alt:"):
+        try:
+            with st.spinner("Clearing your data…"):
+                dbs.reset_my_data()
+        except Exception:
+            st.error("Couldn't finish the reset. Nothing is lost by trying again – press the button once more.")
+        else:
+            dbs.clear_session_cache()
+            st.session_state.reset_flash = "Your data has been reset. Let's set things up again – one hour at a time. 🌱"
+            st.rerun()
+
     st.markdown("#### Delete journal entries")
     confirm_journal = st.checkbox("I understand all my journal entries will be permanently deleted.")
     if st.button("Delete all journal entries", disabled=not confirm_journal):
